@@ -15,8 +15,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.port=8080"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.workadventure.localhost`)"
-      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.workadventure.rule=Host(`workadventure.valuechainhackers.xyz`)"
+      - "traefik.http.routers.workadventure.service=api@internal"
+      - "traefik.http.routers.workadventure.entryPoints=http"
+      - "traefik.http.routers.workadventure.middlewares=https_redirect@file"
+      - "traefik.http.routers.workadventure.priority=10"
+    
+     
     depends_on:
       - back
       - play
@@ -25,14 +30,14 @@ services:
     networks:
       default:
         aliases:
-          - "front.workadventure.localhost"
-          - "play.workadventure.localhost"
-          - "room-api.workadventure.localhost"
-          - "maps.workadventure.localhost"
-          - "oidc.workadventure.localhost"
-          - "map-storage.workadventure.localhost"
-          - "xmpp.workadventure.localhost"
-          - "matrix.workadventure.localhost"
+          - "front.workadventure.valuechainhackers.xyz"
+          - "play.workadventure.valuechainhackers.xyz"
+          - "room-api.workadventure.valuechainhackers.xyz"
+          - "maps.workadventure.valuechainhackers.xyz"
+          - "oidc.workadventure.valuechainhackers.xyz"
+          - "map-storage.workadventure.valuechainhackers.xyz"
+          - "xmpp.workadventure.valuechainhackers.xyz"
+          - "matrix.workadventure.valuechainhackers.xyz"
   play:
     image: thecodingmachine/nodejs:v2-20-bullseye
     command: npm run dev
@@ -58,12 +63,12 @@ services:
       ENABLE_MAP_EDITOR: "$ENABLE_MAP_EDITOR"
       HOST: "0.0.0.0"
       NODE_ENV: development
-      ALLOWED_CORS_ORIGIN: "http://play.workadventure.localhost"
-      VITE_URL: "http://front.workadventure.localhost"
-      PUSHER_URL: http://play.workadventure.localhost
-      FRONT_URL: http://play.workadventure.localhost
-      UPLOADER_URL: http://uploader.workadventure.localhost
-      ICON_URL: http://icon.workadventure.localhost
+      ALLOWED_CORS_ORIGIN: "http://play.workadventure.valuechainhackers.xyz"
+      VITE_URL: "http://front.workadventure.valuechainhackers.xyz"
+      PUSHER_URL: http://play.workadventure.valuechainhackers.xyz
+      FRONT_URL: http://play.workadventure.valuechainhackers.xyz
+      UPLOADER_URL: http://uploader.workadventure.valuechainhackers.xyz
+      ICON_URL: http://icon.workadventure.valuechainhackers.xyz
       STUN_SERVER: "stun:stun.l.google.com:19302"
       TURN_SERVER: "$TURN_SERVER"
       DISABLE_NOTIFICATIONS: "$DISABLE_NOTIFICATIONS"
@@ -90,7 +95,7 @@ services:
       API_URL: back:50051
       DISABLE_ANONYMOUS: $DISABLE_ANONYMOUS
       #Map editor
-      PUBLIC_MAP_STORAGE_URL: "http://map-storage.workadventure.localhost"
+      PUBLIC_MAP_STORAGE_URL: "http://map-storage.workadventure.valuechainhackers.xyz"
       INTERNAL_MAP_STORAGE_URL: "http://map-storage:3000"
       ENABLE_OPENAPI_ENDPOINT: "true"
       START_ROOM_URL: "$START_ROOM_URL"
@@ -118,9 +123,9 @@ services:
       ROOM_API_SECRET_KEY: ${ROOM_API_SECRET_KEY}
       #GRPC_VERBOSITY: DEBUG
       #GRPC_TRACE: all
-      JITSI_DOMAIN: "$JITSI_DOMAIN"
-      JITSI_MUC_DOMAIN: "$JITSI_MUC_DOMAIN"
-      JITSI_XMPP_DOMAIN: "$JITSI_XMPP_DOMAIN"
+      JITSI_DOMAIN: "Valuechainhackers.xyz"
+      JITSI_MUC_DOMAIN: "Valuechainhackers.xyz"
+      JITSI_XMPP_DOMAIN: "Valuechainhackers.xyz"
       FEATURE_FLAG_BROADCAST_AREAS: "true"
       # Integration tools
       KLAXOON_ENABLED: "$KLAXOON_ENABLED"
@@ -132,8 +137,8 @@ services:
       GOOGLE_SLIDES_ENABLED: "$GOOGLE_SLIDES_ENABLED"
       ERASER_ENABLED: "$ERASER_ENABLED"
       EXCALIDRAW_ENABLED: "$EXCALIDRAW_ENABLED"
-      EXCALIDRAW_DOMAINS: "$EXCALIDRAW_DOMAINS"
-      EMBEDDED_DOMAINS_WHITELIST: "$EMBEDDED_DOMAINS_WHITELIST"
+      EXCALIDRAW_DOMAINS: "Valuechainhackers.xyz"
+      EMBEDDED_DOMAINS_WHITELIST: "Valuechainhackers.xyz"
       CARDS_ENABLED: "$CARDS_ENABLED"
       # Report issues menu
       ACTIVE_REPORT_ISSUES_MENU: "true"
@@ -147,33 +152,35 @@ services:
       GOOGLE_DRIVE_PICKER_APP_ID: "$GOOGLE_DRIVE_PICKER_APP_ID"
       #Chat
       MATRIX_API_URI: http://synapse:8008/
-      MATRIX_PUBLIC_URI: http://$MATRIX_DOMAIN/
-      MATRIX_DOMAIN: '$MATRIX_DOMAIN'
-      MATRIX_ADMIN_USER: '$MATRIX_ADMIN_USER'
-      MATRIX_ADMIN_PASSWORD: '$MATRIX_ADMIN_PASSWORD'
+      MATRIX_PUBLIC_URI: http://valuechainhackers.xyz/
+      MATRIX_DOMAIN: 'valuechainhackers.xyz'
+      MATRIX_ADMIN_USER: 'matrix'
+      MATRIX_ADMIN_PASSWORD: 'Matrixbaby100!'
       # oEmbed providers
       EMBEDLY_KEY: "$EMBEDLY_KEY"
       IFRAMELY_KEY: "$IFRAMELY_KEY"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.front.rule=Host(`front.workadventure.localhost`)"
+      - "traefik.http.routers.front.rule=Host(`front.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.front.service=front"
       - "traefik.http.services.front.loadbalancer.server.port=8080"
-      - "traefik.http.routers.room-api.rule=Host(`room-api.workadventure.localhost`)"
+      - "traefik.http.routers.room-api.rule=Host(`room-api.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.room-api.service=room-api"
-      - "traefik.http.services.room-api.loadbalancer.server.port=50051"
+      - "traefik.http.services.room-api.loadbalancer.server.port=8080"
       - "traefik.http.services.room-api.loadbalancer.server.scheme=h2c"
-      - "traefik.http.routers.play.rule=HostRegexp(`{domain:.*}`)"
-      - "traefik.http.routers.play.priority=1"
+      - "traefik.http.routers.play.rule=HostRegexp(`{valuechainhackers.xyz:.*}`)"
+      - "traefik.http.routers.play.priority=10"
       - "traefik.http.routers.play.service=play"
-      - "traefik.http.services.play.loadbalancer.server.port=3000"
+      - "traefik.http.services.play.loadbalancer.server.port=8080"
+
+      
   maps:
       image: thecodingmachine/php:8.1-v4-apache-node12
       environment:
           DEBUG_MODE: "$DEBUG_MODE"
           HOST: "0.0.0.0"
           NODE_ENV: development
-          FRONT_URL: http://play.workadventure.localhost
+          FRONT_URL: http://play.workadventure.valuechainhackers.xyz
           #APACHE_DOCUMENT_ROOT: dist/
           #APACHE_EXTENSIONS: headers
           #APACHE_EXTENSION_HEADERS: 1
@@ -183,9 +190,9 @@ services:
           - ./maps:/var/www/html
       labels:
           - "traefik.enable=true"
-          - "traefik.http.routers.maps.rule=Host(`maps.workadventure.localhost`)"
+          - "traefik.http.routers.maps.rule=Host(`maps.workadventure.valuechainhackers.xyz`)"
           - "traefik.http.routers.maps.entryPoints=web,traefik"
-          - "traefik.http.services.maps.loadbalancer.server.port=80"
+          - "traefik.http.services.maps.loadbalancer.server.port=8080"
 
   back:
     image: thecodingmachine/nodejs:v2-20-bullseye
@@ -193,7 +200,7 @@ services:
     working_dir: /usr/src/app/back
     environment:
       DEBUG: "*"
-      PLAY_URL: http://play.workadventure.localhost
+      PLAY_URL: http://play.workadventure.valuechainhackers.xyz
       # On startup, we ask the messages container to regenerate the files.
       # Note: we need to use this "messages" container because of ARM64 processors that are not supported with protoc (used in "messages" container)
       #STARTUP_COMMAND_0: touch /usr/src/app/back/src/Messages/generate_request/need_regenerate
@@ -218,7 +225,7 @@ services:
       STORE_VARIABLES_FOR_LOCAL_MAPS: "true"
       PROMETHEUS_AUTHORIZATION_TOKEN: "$PROMETHEUS_AUTHORIZATION_TOKEN"
       MAP_STORAGE_URL: "map-storage:50053"
-      PUBLIC_MAP_STORAGE_URL: "http://map-storage.workadventure.localhost"
+      PUBLIC_MAP_STORAGE_URL: "http://map-storage.workadventure.valuechainhackers.xyz"
       INTERNAL_MAP_STORAGE_URL: "http://map-storage:3000"
       PLAYER_VARIABLES_MAX_TTL: $PLAYER_VARIABLES_MAX_TTL
       ENABLE_CHAT: "$ENABLE_CHAT"
@@ -234,7 +241,7 @@ services:
       - "9232:9229"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.back.rule=Host(`api.workadventure.localhost`)"
+      - "traefik.http.routers.back.rule=Host(`api.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.back.entryPoints=web"
       - "traefik.http.services.back.loadbalancer.server.port=8080"
 
@@ -265,11 +272,11 @@ services:
       - "9233:9229"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.map-storage.rule=Host(`map-storage.workadventure.localhost`)"
+      - "traefik.http.routers.map-storage.rule=Host(`map-storage.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.map-storage.entryPoints=web"
       - "traefik.http.routers.map-storage.service=map-storage"
       - "traefik.http.services.map-storage.loadbalancer.server.port=3000"
-      - "traefik.http.routers.map-storage-ui.rule=Host(`map-storage.workadventure.localhost`) && PathPrefix(`/ui/`)"
+      - "traefik.http.routers.map-storage-ui.rule=Host(`map-storage.workadventure.valuechainhackers.xyz`) && PathPrefix(`/ui/`)"
       - "traefik.http.routers.map-storage-ui.entryPoints=web"
       - "traefik.http.routers.map-storage-ui.service=map-storage-ui"
       - "traefik.http.services.map-storage-ui.loadbalancer.server.port=8080"
@@ -281,8 +288,8 @@ services:
     working_dir: /usr/src/app/uploader
     environment:
       DEBUG: "*"
-      STARTUP_COMMAND_1: ../npm-install.sh
-      UPLOADER_URL: http://uploader.workadventure.localhost
+r      STARTUP_COMMAND_1: ../npm-install.sh
+      UPLOADER_URL: http://uploader.workadventure.valuechainhackers.xyz
       #AWS
       AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
       AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
@@ -303,7 +310,7 @@ services:
       - "9234:9229"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.uploader.rule=Host(`uploader.workadventure.localhost`)"
+      - "traefik.http.routers.uploader.rule=Host(`uploader.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.uploader.entryPoints=web"
       - "traefik.http.services.uploader.loadbalancer.server.port=8080"
 
@@ -327,7 +334,7 @@ services:
     image: redislabs/redisinsight:latest
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.redisinsight.rule=Host(`redis.workadventure.localhost`)"
+      - "traefik.http.routers.redisinsight.rule=Host(`redis.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.redisinsight.entryPoints=web"
       - "traefik.http.services.redisinsight.loadbalancer.server.port=8001"
 
@@ -335,7 +342,7 @@ services:
     image: matthiasluedtke/iconserver:v3.15.0
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.icon.rule=Host(`icon.workadventure.localhost`)"
+      - "traefik.http.routers.icon.rule=Host(`icon.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.icon.entryPoints=web"
       - "traefik.http.services.icon.loadbalancer.server.port=8080"
 
@@ -433,7 +440,7 @@ services:
       - ./contrib/oidc-server-mock:/tmp/config:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.oidc.rule=Host(`oidc.workadventure.localhost`)"
+      - "traefik.http.routers.oidc.rule=Host(`oidc.workadventure.valuechainhackers.xyz`)"
       - "traefik.http.routers.oidc.entryPoints=web"
     healthcheck:
       #disable: true
@@ -445,7 +452,7 @@ services:
     entrypoint: /data/start.sh
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.matrix.rule=Host(`matrix.workadventure.localhost`)"
+        - "traefik.http.routers.matrix.rule=Host(`matrix.workadventure.valuechainhackers.xyz`)"
         - "traefik.http.routers.matrix.entryPoints=web"
         - "traefik.http.services.matrix.loadbalancer.server.port=8008"
         - "traefik.http.routers.matrix.service=matrix"
@@ -453,15 +460,15 @@ services:
         - ./synapse:/data/
         #- ./synapse/start.sh:/data/start.sh
         #- ./synapse/homeserver.template.yaml:/data/homeserver.template.yaml
-        - ./synapse/federation:/etc/nginx/vhost.d/matrix.workadventure.localhost
+        - ./synapse/federation:/etc/nginx/vhost.d/matrix.workadventure.valuechainhackers.xyz
     environment:
-        VIRTUAL_HOST: "matrix.workadventure.localhost"
+        VIRTUAL_HOST: "matrix.workadventure.valuechainhackers.xyz"
         VIRTUAL_PORT: 8008
-        LETSENCRYPT_HOST: "matrix.workadventure.localhost"
-        SYNAPSE_SERVER_NAME: "matrix.workadventure.localhost"
+        LETSENCRYPT_HOST: "matrix.workadventure.valuechainhackers.xyz"
+        SYNAPSE_SERVER_NAME: "matrix.workadventure.valuechainhackers.xyz"
         SYNAPSE_REPORT_STATS: "yes"
-        MATRIX_ADMIN_USER: '$MATRIX_ADMIN_USER'
-        MATRIX_ADMIN_PASSWORD: '$MATRIX_ADMIN_PASSWORD'
+        MATRIX_ADMIN_USER: 'matrix'
+        MATRIX_ADMIN_PASSWORD: 'Matrixbaby100!'
         JWT_SECRET: '$SECRET_KEY'
 #  coturn:
 #    image: coturn/coturn:4.5.2
@@ -475,8 +482,8 @@ services:
 #      - --max-port=10010
 #      - --tls-listening-port=5349
 #      - --listening-ip=0.0.0.0
-#      - --realm=coturn.workadventure.localhost
-#      - --server-name=coturn.workadventure.localhost
+#      - --realm=coturn.workadventure.valuechainhackers.xyz
+#      - --server-name=coturn.workadventure.valuechainhackers.xyz
 #      - --lt-cred-mech
 #      # Enable Coturn "REST API" to validate temporary passwords.
 #      #- --use-auth-secret
